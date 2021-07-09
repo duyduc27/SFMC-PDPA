@@ -1,0 +1,34 @@
+    %%[
+var @rows, @row, @rowCount, @subscriptionStatus, @i
+set @subscriptionStatus = True
+set @rows = LookupRows("PDPA temporary SC true MC unsub","Email_Status", @subscriptionStatus)
+set @rowCount = rowcount(@rows)
+if @rowCount > 0 then
+  for @i=1 to @rowCount do
+    var @Id, @emailAddress, @status, @updateSF, @objType
+    set @row = row(@rows, @i) /* get row based on counter */
+    set @Id = field(@row,"SubscriberKey")
+    set @emailAddress = field(@row,"EmailAddress")
+    set @status = field(@row,"Status")
+    set @objType = field(@row,"Contact")
+    set @updateSF = UpdateSingleSalesforceObject(@objType, @Id,
+                                                "Email__c", "False"
+                                                )
+        if @updateSF == 1 then
+            InsertDE("MCtoSC_unsubscribeSyncLogging",
+                    "SubscriberKey", @Id,
+                    "EmailAddress", @emailAddress,
+                    "Status", "unsubscribed",
+                    "TimeStamp", now()
+                    )
+        else 
+            InsertDE("MCtoSC_unsubscribeSyncLogging",
+                    "SubscriberKey", @Id,
+                    "EmailAddress", @emailAddress,
+                    "Status", "error",
+                    "TimeStamp", now()
+                    )
+        endif                                                
+  next @i
+endif
+]%%
