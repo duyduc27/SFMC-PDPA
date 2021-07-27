@@ -1,0 +1,6 @@
+<script runat="server">
+Platform.Load("core","1.1.1");
+
+var ampscriptCode = Platform.Function.ContentBlockByID("303743");
+
+</script>

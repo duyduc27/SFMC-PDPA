@@ -1,0 +1,27 @@
+<script runat="server">
+
+Platform.Load("core","1.1.1");
+    /* keywords guid */
+    var TEXTUPDATE = "435fb45b-73cb-4d8f-84e8-1a760b7cc25a";
+    var FLAGKEY = "b0a7990d-94bb-43c8-b976-851086dbbabb";
+    var JCC = "907f3409-8da1-4c90-9502-b46f41e66adc";
+    var JCCJOIN = "0d3c70d5-0ba9-49c8-b3b5-e69a614dceb8";
+    var JCCSTOP = "83e3ff34-4580-4a1b-ac2d-ff8214dc3190";
+
+    /*Retrieve DE data and update data in Mobile Connect */
+    var myDEName = "Duc opt out JCCSTOP keyword";
+    var data = Platform.Function.LookupRows(myDEName, "Remark", "Aodigy out opt keyword");
+    if (data.length> 0){
+        for(var i=0; i< data.length; i++){
+            var mobilenumber = data[i].mobilenumber;
+            var today = data[i].today;
+
+            var UpdateSubscription = Platform.Function.UpdateData
+            ("_MobileSubscription", ["_MobileNumber", "_SubscriptionDefinitionID"], [mobilenumber, JCCSTOP], 
+            ["_OptInStatusID","_OptOutStatusID", "_ModifiedDate"], 
+            [0, 1, today]);
+        };
+    };
+
+    
+</script>

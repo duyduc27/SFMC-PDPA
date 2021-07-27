@@ -1,0 +1,16 @@
+%%[
+    /* This AMPscript was saved as a Code Snippet. Its content id was 303743  */
+    set @DEname = 'PDPA MC to SC for SMS subscription'
+    set @data = LookupRows(@DEname, 'Remark', 'Aodigy')
+    set @rowCount = RowCount(@data)
+    if @rowCount > 0 then 
+        for @i = 1 to @rowCount do 
+            var @SubscriberKey, @transformedvalue
+            set @row = row(@data, @i)
+            set @SubscriberKey = Field(@row, 'subscriberkey')
+            set @transformedvalue = Field(@row, 'transformedvalue')
+
+            set @update = UpdateSingleSalesforceObject('Contact', @SubscriberKey, 'SMS__c', @transformedvalue)
+        next @i
+    endif
+]%%
