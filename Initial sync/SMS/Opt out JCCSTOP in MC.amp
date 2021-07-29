@@ -9,7 +9,7 @@ Platform.Load("core","1.1.1");
     var JCCSTOP = "83e3ff34-4580-4a1b-ac2d-ff8214dc3190";
 
     /*Retrieve DE data and update data in Mobile Connect */
-    var myDEName = "Duc opt out JCCSTOP keyword";
+    var myDEName = "PDPA opt out JCCSTOP keyword";
     var data = Platform.Function.LookupRows(myDEName, "Remark", "Aodigy out opt keyword");
     if (data.length> 0){
         for(var i=0; i< data.length; i++){
